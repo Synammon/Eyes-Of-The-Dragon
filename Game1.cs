@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EyesOfTheDragon.GameStates;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Psilibrary;
@@ -15,17 +16,31 @@ namespace EyesOfTheDragon
         private readonly GraphicsDeviceManager graphics;
         private readonly StateManager stateManager;
         private readonly TextureManager textureManager;
-        private SpriteBatch spriteBatch;
+        private readonly MainMenuState _mainMenuState;
+        private readonly TitleState _titleState;
+        private readonly GamePlayState _gamePlayState;
 
-        private Camera camera;
-        private Engine engine;
-        private World world;
+        private SpriteBatch spriteBatch;
 
         public SpriteBatch SpriteBatch
         {
             get { return spriteBatch; }
         }
 
+        public MainMenuState MainMenuState
+        {
+            get { return _mainMenuState; }
+        }
+
+        public TitleState TitleState
+        {
+            get { return _titleState; }
+        }
+
+        public GamePlayState GamePlayState
+        {
+            get { return _gamePlayState; }
+        }
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -42,6 +57,14 @@ namespace EyesOfTheDragon
             Components.Add(textureManager);
 
             Components.Add(new Xin(this));
+
+            _mainMenuState = new MainMenuState(this);
+            _titleState = new TitleState(this);
+            _gamePlayState = new GamePlayState(this);
+
+            stateManager.ChangeState(_titleState);
+
+            IsMouseVisible = true;
         }
 
         /// <summary>
@@ -53,7 +76,6 @@ namespace EyesOfTheDragon
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
@@ -66,28 +88,20 @@ namespace EyesOfTheDragon
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            textureManager.AddTexture(
+                "title-screen", 
+                Content.Load<Texture2D>(@"Backgrounds\title-screen"));
+            textureManager.AddTexture(
+                "blue-button",
+                Content.Load<Texture2D>(@"GUI\g9202"));
+            textureManager.AddTexture(
+                "green-button",
+                Content.Load<Texture2D>(@"GUI\g9236"));
+            textureManager.AddTexture(
+                "grey-button",
+                Content.Load<Texture2D>(@"GUI\g9254"));
+
             // TODO: use this.Content to load your game content here
-            world = new World();
-            Tileset tileset = new Tileset(
-                Content.Load<Texture2D>(@"Tiles\tilemap"),
-                13,
-                9,
-                16,
-                16);
-            MapLayer baseLayer = new MapLayer(new Tile[100, 100]);
-            for (int i = 0; i < 100; i++)
-            {
-                for (int j = 0; j < 100; j++)
-                {
-                    baseLayer.SetTile(i, j, new Tile(8, 0));
-                }
-            }
-            TileMap map = new TileMap("test", tileset, baseLayer, new CollisionLayer(), new PortalLayer());
-            map.PortalLayer.Portals.Add("test", new Portal(new Point(0, 0), new Point(0, 0), "test"));
-            world.AddMap("test", map);
-            world.ChangeMap("test", "test");
-            camera = new Camera(new Rectangle(0, 0, 1280, 720));
-            engine = new Engine(32, 32);
         }
 
         /// <summary>
@@ -109,9 +123,6 @@ namespace EyesOfTheDragon
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            camera.Update(gameTime, world.CurrentMap);
-            camera.LockCamera(world.CurrentMap);
-
             base.Update(gameTime);
         }
 
@@ -123,18 +134,6 @@ namespace EyesOfTheDragon
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin(
-                SpriteSortMode.Deferred,
-                BlendState.AlphaBlend,
-                SamplerState.PointClamp,
-                null,
-                null,
-                null,
-                camera.Transformation);
-
-            world.CurrentMap.Draw(gameTime, spriteBatch, camera);
-
-            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
