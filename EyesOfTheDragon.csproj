@@ -48,6 +48,7 @@
     <Compile Include="GameStates\BaseGameState.cs" />
     <Compile Include="GameStates\GamePlayState.cs" />
     <Compile Include="GameStates\MainMenuState.cs" />
+    <Compile Include="GameStates\OptionState.cs" />
     <Compile Include="GameStates\TitleState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

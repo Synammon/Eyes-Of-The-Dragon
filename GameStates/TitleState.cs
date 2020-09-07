@@ -61,26 +61,31 @@ namespace EyesOfTheDragon.GameStates
 
         public override void Draw(GameTime gameTime)
         {
+            Vector2 scale = new Vector2(
+                Settings.Resolution.X / 1280,
+                Settings.Resolution.Y / 720);
+
             GameRef.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
             Vector2 size = _font.MeasureString("PRESS ENTER TO BEGIN");
 
             GameRef.SpriteBatch.Draw(
                 _textureManager.GetTexture("title-screen"), 
-                new Rectangle(0, 0, 1280, 720), 
+                new Rectangle(0, 0, Settings.Resolution.X, Settings.Resolution.Y), 
                 Color.White);
 
-            Vector2 position = new Vector2((1280 - size.X) / 2, 620);
+            Vector2 position = new Vector2((1280 - size.X) / 2, 620).Scale(scale);
             _destination = new Rectangle(
                 (int)position.X - 10,
                 (int)position.Y - 20,
-                (int)size.X + 20,
-                (int)size.Y + 40);
+                (int)(size.X + 20),
+                (int)(size.Y + 40));
 
             if (_destination.Contains(Xin.MouseAsPoint))
             {
                 _mouseOver = true;
             }
+
             GameRef.SpriteBatch.Draw(
                 _textureManager.GetTexture("blue-button"),
                 _destination,

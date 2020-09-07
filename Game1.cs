@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using Psilibrary;
 using Psilibrary.StateManager;
 using Psilibrary.TileEngine;
+using System.Collections.Generic;
 
 namespace EyesOfTheDragon
 {
@@ -16,9 +17,13 @@ namespace EyesOfTheDragon
         private readonly GraphicsDeviceManager graphics;
         private readonly StateManager stateManager;
         private readonly TextureManager textureManager;
+        private readonly OptionState _optionState;
         private readonly MainMenuState _mainMenuState;
         private readonly TitleState _titleState;
         private readonly GamePlayState _gamePlayState;
+
+        public static readonly Dictionary<string, Point> Resolutions =
+            new Dictionary<string, Point>();
 
         private SpriteBatch spriteBatch;
 
@@ -37,18 +42,45 @@ namespace EyesOfTheDragon
             get { return _titleState; }
         }
 
+        public OptionState OptionState
+        {
+            get { return _optionState; }
+        }
+
         public GamePlayState GamePlayState
         {
             get { return _gamePlayState; }
         }
+
+        public GraphicsDeviceManager GraphicsDeviceManager
+        {
+            get { return graphics; }
+        }
+
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            Settings.Load();
 
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+            graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = Settings.Resolution.X,
+                PreferredBackBufferHeight = Settings.Resolution.Y
+            };
+
             graphics.ApplyChanges();
+
+            foreach (var v in graphics.GraphicsDevice.Adapter.SupportedDisplayModes)
+            {
+                Point p = new Point(v.Width, v.Height);
+                string s = v.Width + " by " + v.Height;
+
+                if (v.Width >= 1280 && v.Height >= 720)
+                {
+                    Resolutions.Add(s, p);
+                }
+            }
+
+            Content.RootDirectory = "Content";
 
             stateManager = new StateManager(this);
             Components.Add(stateManager);
@@ -56,10 +88,12 @@ namespace EyesOfTheDragon
             textureManager = new TextureManager(this);
             Components.Add(textureManager);
 
+            Components.Add(new FontManager(this));
             Components.Add(new Xin(this));
 
             _mainMenuState = new MainMenuState(this);
             _titleState = new TitleState(this);
+            _optionState = new OptionState(this);
             _gamePlayState = new GamePlayState(this);
 
             stateManager.ChangeState(_titleState);

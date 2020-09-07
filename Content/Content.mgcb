@@ -32,6 +32,27 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/InterfaceFont.spritefont
 
+#begin Fonts/InterfaceFont_large.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/InterfaceFont_large.spritefont
+
+#begin Fonts/InterfaceFont_medium.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/InterfaceFont_medium.spritefont
+
+#begin Fonts/InterfaceFont_ultra.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/InterfaceFont_ultra.spritefont
+
 #begin GUI/g10457.png
 /importer:TextureImporter
 /processor:TextureProcessor

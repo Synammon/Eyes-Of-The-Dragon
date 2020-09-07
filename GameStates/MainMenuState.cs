@@ -70,6 +70,7 @@ namespace EyesOfTheDragon.GameStates
                     case 1:
                         break;
                     case 2:
+                        _manager.PushState(GameRef.OptionState);
                         break;
                     case 3:
                         break;

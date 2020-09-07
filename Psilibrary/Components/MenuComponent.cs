@@ -117,7 +117,13 @@ namespace Psilibrary.Components
 
         private void MeassureMenu()
         {
-            _width = _texture.Width;
+            Vector2 scale = new Vector2(
+                Settings.Resolution.X / 1280,
+                Settings.Resolution.Y / 720);
+
+            spriteFont = FontManager.GetFont("interfacefont");
+
+            _width = _texture.Width * (int)scale.X;
             _height = 0;
 
             foreach (string s in _menuItems)
@@ -127,7 +133,7 @@ namespace Psilibrary.Components
                 if (size.X > _width)
                     _width = (int)size.X;
 
-                _height += _texture.Height + 50;
+                _height += _texture.Height * (int)scale.Y + 50;
             }
 
             _height -= 50;
@@ -137,12 +143,20 @@ namespace Psilibrary.Components
         {
             Vector2 menuPosition = _position;
             Point p = Xin.MouseAsPoint;
+            Vector2 scale = new Vector2(
+                Settings.Resolution.X / 1280,
+                Settings.Resolution.Y / 720);
 
             Rectangle buttonRect;
+            _mouseOver = false;
 
             for (int i = 0; i < _menuItems.Count; i++)
             {
-                buttonRect = new Rectangle((int)menuPosition.X, (int)menuPosition.Y, _texture.Width, _texture.Height);
+                buttonRect = new Rectangle(
+                    (int)menuPosition.X, 
+                    (int)menuPosition.Y, 
+                    _texture.Width, 
+                    _texture.Height).Scale(scale);
 
                 if (buttonRect.Contains(p))
                 {
@@ -172,6 +186,11 @@ namespace Psilibrary.Components
             Vector2 menuPosition = _position;
             Vector2 selectedPosition = new Vector2();
             Color myColor;
+            Vector2 scale = new Vector2(
+                Settings.Resolution.X / 1280,
+                Settings.Resolution.Y / 720);
+
+            spriteFont = FontManager.GetFont("interfacefont");
 
             for (int i = 0; i < _menuItems.Count; i++)
             {
@@ -184,17 +203,25 @@ namespace Psilibrary.Components
                 else
                     myColor = NormalColor;
 
+                Rectangle destination = new Rectangle(
+                    (int)menuPosition.X,
+                    (int)menuPosition.Y,
+                    _selected.Width,
+                    _selected.Height).Scale(scale);
+
                 if (i == SelectedIndex)
-                    spriteBatch.Draw(_selected, menuPosition, Color.White);
+                    spriteBatch.Draw(_selected, destination, Color.White);
                 else
-                    spriteBatch.Draw(_texture, menuPosition, Color.White);
+                    spriteBatch.Draw(_texture, destination, Color.White);
 
                 Vector2 textSize = spriteFont.MeasureString(_menuItems[i]);
 
-                Vector2 textPosition = menuPosition + new Vector2((int)(_texture.Width - textSize.X) / 2, (int)(_texture.Height - textSize.Y) / 2);
+                Vector2 textPosition = menuPosition + new Vector2(
+                    (_texture.Width * scale.X - textSize.X) / 2, 
+                    (_texture.Height * scale.Y - textSize.Y) / 2);
                 spriteBatch.DrawString(spriteFont,
                     _menuItems[i],
-                    textPosition,
+                    textPosition.Scale(scale),
                     myColor);
 
                 menuPosition.Y += _texture.Height + 50;
