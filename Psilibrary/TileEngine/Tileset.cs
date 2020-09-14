@@ -12,12 +12,12 @@ namespace Psilibrary.TileEngine
     {
         #region Fields and Properties
 
-        private Texture2D _image;
-        private int _tileWidthInPixels;
-        private int _tileHeightInPixels;
-        private int _tilesWide;
-        private int _tilesHigh;
-        private Rectangle[] _sourceRectangles;
+        private Texture2D image;
+        private int tileWidthInPixels;
+        private int tileHeightInPixels;
+        private int tilesWide;
+        private int tilesHigh;
+        private Rectangle[] sourceRectangles;
 
         #endregion
 
@@ -25,37 +25,37 @@ namespace Psilibrary.TileEngine
 
         public Texture2D Texture
         {
-            get { return _image; }
-            private set { _image = value; }
+            get { return image; }
+            private set { image = value; }
         }
 
         public int TileWidth
         {
-            get { return _tileWidthInPixels; }
-            private set { _tileWidthInPixels = value; }
+            get { return tileWidthInPixels; }
+            private set { tileWidthInPixels = value; }
         }
 
         public int TileHeight
         {
-            get { return _tileHeightInPixels; }
-            private set { _tileHeightInPixels = value; }
+            get { return tileHeightInPixels; }
+            private set { tileHeightInPixels = value; }
         }
 
         public int TilesWide
         {
-            get { return _tilesWide; }
-            private set { _tilesWide = value; }
+            get { return tilesWide; }
+            private set { tilesWide = value; }
         }
 
         public int TilesHigh
         {
-            get { return _tilesHigh; }
-            private set { _tilesHigh = value; }
+            get { return tilesHigh; }
+            private set { tilesHigh = value; }
         }
 
         public Rectangle[] SourceRectangles
         {
-            get { return (Rectangle[])_sourceRectangles.Clone(); }
+            get { return (Rectangle[])sourceRectangles.Clone(); }
         }
 
         #endregion
@@ -72,14 +72,14 @@ namespace Psilibrary.TileEngine
 
             int tiles = tilesWide * tilesHigh;
 
-            _sourceRectangles = new Rectangle[tiles];
+            sourceRectangles = new Rectangle[tiles];
 
             int tile = 0;
 
             for (int y = 0; y < tilesHigh; y++)
                 for (int x = 0; x < tilesWide; x++)
                 {
-                    _sourceRectangles[tile] = new Rectangle(
+                    sourceRectangles[tile] = new Rectangle(
                         x * tileWidth,
                         y * tileHeight,
                         tileWidth,

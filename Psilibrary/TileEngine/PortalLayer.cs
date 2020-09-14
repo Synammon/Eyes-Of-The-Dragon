@@ -11,7 +11,7 @@ namespace Psilibrary.TileEngine
     {
         #region Field Region
 
-        private Dictionary<string, Portal> _portals;
+        private Dictionary<string, Portal> portals;
 
         #endregion
 
@@ -20,8 +20,8 @@ namespace Psilibrary.TileEngine
         [ContentSerializer]
         public Dictionary<string, Portal> Portals
         {
-            get { return _portals; }
-            set { _portals = value; }
+            get { return portals; }
+            set { portals = value; }
         }
 
         #endregion
@@ -30,7 +30,7 @@ namespace Psilibrary.TileEngine
 
         public PortalLayer()
         {
-            _portals = new Dictionary<string, Portal>();
+            portals = new Dictionary<string, Portal>();
         }
 
         #endregion

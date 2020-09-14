@@ -15,11 +15,11 @@ namespace Psilibrary.TileEngine
     {
         #region Field Region
 
-        private Vector2 _position;
-        private float _speed;
-        private float _zoom;
-        private Rectangle _viewportRectangle;
-        private CameraMode _mode;
+        private Vector2 position;
+        private float speed;
+        private float zoom;
+        private Rectangle viewportRectangle;
+        private CameraMode mode;
 
         #endregion
 
@@ -27,47 +27,47 @@ namespace Psilibrary.TileEngine
 
         public Point PositionAsPoint
         {
-            get { return new Point((int)_position.X, (int)_position.Y); }
+            get { return new Point((int)position.X, (int)position.Y); }
         }
 
         public Vector2 Position
         {
-            get { return _position; }
-            set { _position = value; }
+            get { return position; }
+            set { position = value; }
         }
 
         public float Speed
         {
-            get { return _speed; }
+            get { return speed; }
             set
             {
-                _speed = (float)MathHelper.Clamp(_speed, 1f, 16f);
+                speed = (float)MathHelper.Clamp(speed, 1f, 16f);
             }
         }
 
         public float Zoom
         {
-            get { return _zoom; }
+            get { return zoom; }
         }
 
         public CameraMode CameraMode
         {
-            get { return _mode; }
+            get { return mode; }
         }
 
         public Matrix Transformation
         {
-            get { return Matrix.CreateScale(_zoom) * 
+            get { return Matrix.CreateScale(zoom) * 
                 Matrix.CreateTranslation(new Vector3((int)-Position.X, (int)-Position.Y, 0f)); }
         }
 
         public Rectangle ViewportRectangle
         {
             get { return new Rectangle(
-                _viewportRectangle.X,
-                _viewportRectangle.Y, 
-                _viewportRectangle.Width, 
-                _viewportRectangle.Height); }
+                viewportRectangle.X,
+                viewportRectangle.Y, 
+                viewportRectangle.Width, 
+                viewportRectangle.Height); }
         }
 
         #endregion
@@ -76,20 +76,20 @@ namespace Psilibrary.TileEngine
 
         public Camera(Rectangle viewportRect)
         {
-            _speed = 4f;
-            _zoom = 1f;
-            _viewportRectangle = viewportRect;
-            _mode = CameraMode.Follow;
+            speed = 4f;
+            zoom = 1f;
+            viewportRectangle = viewportRect;
+            mode = CameraMode.Follow;
             Position = Vector2.Zero;
         }
 
         public Camera(Rectangle viewportRect, Vector2 position)
         {
-            _speed = 4f;
-            _zoom = 1f;
-            _viewportRectangle = viewportRect;
+            speed = 4f;
+            zoom = 1f;
+            viewportRectangle = viewportRect;
             Position = position;
-            _mode = CameraMode.Follow;
+            mode = CameraMode.Follow;
         }
 
         #endregion
@@ -101,19 +101,19 @@ namespace Psilibrary.TileEngine
             Vector2 motion = Vector2.Zero;
 
             if (Xin.IsKeyDown(Keys.Left))
-                motion.X = -_speed;
+                motion.X = -speed;
             else if (Xin.IsKeyDown(Keys.Right))
-                motion.X = _speed;
+                motion.X = speed;
 
             if (Xin.IsKeyDown(Keys.Up))
-                motion.Y = -_speed;
+                motion.Y = -speed;
             else if (Xin.IsKeyDown(Keys.Down))
-                motion.Y = _speed;
+                motion.Y = speed;
 
             if (motion != Vector2.Zero && map != null)
             {
                 motion.Normalize();
-                _position += motion * _speed;
+                position += motion * speed;
                 LockCamera(map);
             }
 
@@ -121,28 +121,28 @@ namespace Psilibrary.TileEngine
 
         public void ZoomIn()
         {
-            _zoom += .25f;
+            zoom += .25f;
 
-            if (_zoom > 2.5f)
-                _zoom = 2.5f;
+            if (zoom > 2.5f)
+                zoom = 2.5f;
 
-            Vector2 newPosition = Position * _zoom;
+            Vector2 newPosition = Position * zoom;
         }
 
         public void ZoomOut()
         {
-            _zoom -= .25f;
+            zoom -= .25f;
 
-            if (_zoom < .5f)
-                _zoom = .5f;
+            if (zoom < .5f)
+                zoom = .5f;
 
-            Vector2 newPosition = Position * _zoom;
+            Vector2 newPosition = Position * zoom;
         }
 
         public void SnapToPosition(Vector2 newPosition, TileMap map)
         {
-            _position.X = newPosition.X - _viewportRectangle.Width / 2;
-            _position.Y = newPosition.Y - _viewportRectangle.Height / 2;
+            position.X = newPosition.X - viewportRectangle.Width / 2;
+            position.Y = newPosition.Y - viewportRectangle.Height / 2;
             LockCamera(map);
         }
 
@@ -150,13 +150,22 @@ namespace Psilibrary.TileEngine
         {
             if (map != null)
             {
-                _position.X = MathHelper.Clamp(_position.X,
+                position.X = MathHelper.Clamp(position.X,
                     0,
-                    map.WidthInPixels - _viewportRectangle.Width);
-                _position.Y = MathHelper.Clamp(_position.Y,
+                    map.WidthInPixels - viewportRectangle.Width);
+                position.Y = MathHelper.Clamp(position.Y,
                     0,
-                    map.HeightInPixels - _viewportRectangle.Height);
+                    map.HeightInPixels - viewportRectangle.Height);
             }
+        }
+
+        public void LockToSprite(AnimatedSprite sprite, TileMap map)
+        {
+            position.X = (sprite.Position.X + sprite.Width / 2) * zoom
+                            - (viewportRectangle.Width / 2);
+            position.Y = (sprite.Position.Y + sprite.Height / 2) * zoom
+                            - (viewportRectangle.Height / 2);
+            LockCamera(map);
         }
 
         #endregion

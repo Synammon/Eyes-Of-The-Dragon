@@ -11,8 +11,8 @@ namespace Psilibrary.TileEngine
     {
         #region Field Region
 
-        private static int _tileWidth;
-        private static int _tileHeight;
+        private static int tileWidth;
+        private static int tileHeight;
 
         #endregion
 
@@ -20,12 +20,12 @@ namespace Psilibrary.TileEngine
 
         public static int TileWidth
         {
-            get { return _tileWidth; }
+            get { return tileWidth; }
         }
 
         public static int TileHeight
         {
-            get { return _tileHeight; }
+            get { return tileHeight; }
         }
 
         #endregion
@@ -34,8 +34,8 @@ namespace Psilibrary.TileEngine
 
         public Engine(int tileWidth, int tileHeight)
         {
-            Engine._tileWidth = tileWidth;
-            Engine._tileHeight = tileHeight;
+            Engine.tileWidth = tileWidth;
+            Engine.tileHeight = tileHeight;
         }
 
         #endregion
@@ -44,12 +44,12 @@ namespace Psilibrary.TileEngine
 
         public static Point VectorToCell(Vector2 position)
         {
-            return new Point((int)position.X / _tileWidth, (int)position.Y / _tileHeight);
+            return new Point((int)position.X / tileWidth, (int)position.Y / tileHeight);
         }
 
         public static Point PointToWorld(Point point)
         {
-            return new Point(point.X * _tileWidth, point.Y * _tileHeight);
+            return new Point(point.X * tileWidth, point.Y * tileHeight);
         }
         #endregion
     }

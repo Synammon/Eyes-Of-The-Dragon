@@ -13,20 +13,20 @@ namespace Psilibrary.Components
 
         private SpriteFont spriteFont;
 
-        private readonly List<string> _menuItems = new List<string>();
-        private int _selectedIndex = -1;
-        private bool _mouseOver;
+        private readonly List<string> menuItems = new List<string>();
+        private int selectedIndex = -1;
+        private bool mouseOver;
 
-        private int _width;
-        private int _height;
+        private int width;
+        private int height;
 
-        private Color _normalColor = Color.White;
-        private Color _hiliteColor = Color.Red;
+        private Color normalColor = Color.White;
+        private Color hiliteColor = Color.Red;
 
-        private Texture2D _selected;
-        private Texture2D _texture;
+        private Texture2D selected;
+        private Texture2D texture;
 
-        private Vector2 _position;
+        private Vector2 position;
 
         #endregion Fields
 
@@ -34,47 +34,47 @@ namespace Psilibrary.Components
 
         public Vector2 Postion
         {
-            get { return _position; }
-            set { _position = value; }
+            get { return position; }
+            set { position = value; }
         }
 
         public int Width
         {
-            get { return _width; }
+            get { return width; }
         }
 
         public int Height
         {
-            get { return _height; }
+            get { return height; }
         }
 
         public int SelectedIndex
         {
-            get { return _selectedIndex; }
+            get { return selectedIndex; }
             set
             {
-                _selectedIndex = (int)MathHelper.Clamp(
+                selectedIndex = (int)MathHelper.Clamp(
                         value,
                         0,
-                        _menuItems.Count - 1);
+                        menuItems.Count - 1);
             }
         }
 
         public Color NormalColor
         {
-            get { return _normalColor; }
-            set { _normalColor = value; }
+            get { return normalColor; }
+            set { normalColor = value; }
         }
 
         public Color HiliteColor
         {
-            get { return _hiliteColor; }
-            set { _hiliteColor = value; }
+            get { return hiliteColor; }
+            set { hiliteColor = value; }
         }
 
         public bool MouseOver
         {
-            get { return _mouseOver; }
+            get { return mouseOver; }
         }
 
         #endregion Properties
@@ -83,20 +83,20 @@ namespace Psilibrary.Components
 
         public MenuComponent(SpriteFont spriteFont, Texture2D selected, Texture2D texture)
         {
-            this._mouseOver = false;
-            this._selected = selected;
+            this.mouseOver = false;
+            this.selected = selected;
             this.spriteFont = spriteFont;
-            this._texture = texture;
+            this.texture = texture;
         }
 
         public MenuComponent(SpriteFont spriteFont, Texture2D selected, Texture2D texture, string[] menuItems)
             : this(spriteFont, selected, texture)
         {
-            _selectedIndex = 0;
+            selectedIndex = 0;
 
             foreach (string s in menuItems)
             {
-                this._menuItems.Add(s);
+                this.menuItems.Add(s);
             }
 
             MeassureMenu();
@@ -108,11 +108,11 @@ namespace Psilibrary.Components
 
         public void SetMenuItems(string[] items)
         {
-            _menuItems.Clear();
-            _menuItems.AddRange(items);
+            menuItems.Clear();
+            menuItems.AddRange(items);
             MeassureMenu();
 
-            _selectedIndex = 0;
+            selectedIndex = 0;
         }
 
         private void MeassureMenu()
@@ -123,67 +123,67 @@ namespace Psilibrary.Components
 
             spriteFont = FontManager.GetFont("interfacefont");
 
-            _width = _texture.Width * (int)scale.X;
-            _height = 0;
+            width = texture.Width * (int)scale.X;
+            height = 0;
 
-            foreach (string s in _menuItems)
+            foreach (string s in menuItems)
             {
                 Vector2 size = spriteFont.MeasureString(s);
 
-                if (size.X > _width)
-                    _width = (int)size.X;
+                if (size.X > width)
+                    width = (int)size.X;
 
-                _height += _texture.Height * (int)scale.Y + 50;
+                height += texture.Height * (int)scale.Y + 50;
             }
 
-            _height -= 50;
+            height -= 50;
         }
 
         public void Update(GameTime gameTime)
         {
-            Vector2 menuPosition = _position;
+            Vector2 menuPosition = position;
             Point p = Xin.MouseAsPoint;
             Vector2 scale = new Vector2(
                 Settings.Resolution.X / 1280,
                 Settings.Resolution.Y / 720);
 
             Rectangle buttonRect;
-            _mouseOver = false;
+            mouseOver = false;
 
-            for (int i = 0; i < _menuItems.Count; i++)
+            for (int i = 0; i < menuItems.Count; i++)
             {
                 buttonRect = new Rectangle(
                     (int)menuPosition.X, 
                     (int)menuPosition.Y, 
-                    _texture.Width, 
-                    _texture.Height).Scale(scale);
+                    texture.Width, 
+                    texture.Height).Scale(scale);
 
                 if (buttonRect.Contains(p))
                 {
-                    _selectedIndex = i;
-                    _mouseOver = true;
+                    selectedIndex = i;
+                    mouseOver = true;
                 }
 
-                menuPosition.Y += _texture.Height + 50;
+                menuPosition.Y += texture.Height + 50;
             }
 
-            if (!_mouseOver && Xin.CheckKeyPress(Keys.Up))
+            if (!mouseOver && Xin.CheckKeyPress(Keys.Up))
             {
-                _selectedIndex--;
-                if (_selectedIndex < 0)
-                    _selectedIndex = _menuItems.Count - 1;
+                selectedIndex--;
+                if (selectedIndex < 0)
+                    selectedIndex = menuItems.Count - 1;
             }
-            else if (!_mouseOver && Xin.CheckKeyPress(Keys.Down))
+            else if (!mouseOver && Xin.CheckKeyPress(Keys.Down))
             {
-                _selectedIndex++;
-                if (_selectedIndex > _menuItems.Count - 1)
-                    _selectedIndex = 0;
+                selectedIndex++;
+                if (selectedIndex > menuItems.Count - 1)
+                    selectedIndex = 0;
             }
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            Vector2 menuPosition = _position;
+            Vector2 menuPosition = position;
             Vector2 selectedPosition = new Vector2();
             Color myColor;
             Vector2 scale = new Vector2(
@@ -192,7 +192,7 @@ namespace Psilibrary.Components
 
             spriteFont = FontManager.GetFont("interfacefont");
 
-            for (int i = 0; i < _menuItems.Count; i++)
+            for (int i = 0; i < menuItems.Count; i++)
             {
                 if (i == SelectedIndex)
                 {
@@ -206,25 +206,25 @@ namespace Psilibrary.Components
                 Rectangle destination = new Rectangle(
                     (int)menuPosition.X,
                     (int)menuPosition.Y,
-                    _selected.Width,
-                    _selected.Height).Scale(scale);
+                    selected.Width,
+                    selected.Height).Scale(scale);
 
                 if (i == SelectedIndex)
-                    spriteBatch.Draw(_selected, destination, Color.White);
+                    spriteBatch.Draw(selected, destination, Color.White);
                 else
-                    spriteBatch.Draw(_texture, destination, Color.White);
+                    spriteBatch.Draw(texture, destination, Color.White);
 
-                Vector2 textSize = spriteFont.MeasureString(_menuItems[i]);
+                Vector2 textSize = spriteFont.MeasureString(menuItems[i]);
 
                 Vector2 textPosition = menuPosition + new Vector2(
-                    (_texture.Width * scale.X - textSize.X) / 2, 
-                    (_texture.Height * scale.Y - textSize.Y) / 2);
+                    (texture.Width * scale.X - textSize.X) / 2, 
+                    (texture.Height * scale.Y - textSize.Y) / 2);
                 spriteBatch.DrawString(spriteFont,
-                    _menuItems[i],
+                    menuItems[i],
                     textPosition.Scale(scale),
                     myColor);
 
-                menuPosition.Y += _texture.Height + 50;
+                menuPosition.Y += texture.Height + 50;
             }
         }
 

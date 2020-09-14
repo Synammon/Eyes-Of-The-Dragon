@@ -13,9 +13,9 @@ namespace Psilibrary.TileEngine
     {
         #region Field Region
 
-        private Dictionary<string, TileMap> _maps;
+        private Dictionary<string, TileMap> maps;
 
-        private string _currentMapName;
+        private string currentMapName;
         
         #endregion
 
@@ -24,20 +24,20 @@ namespace Psilibrary.TileEngine
         [ContentSerializer]
         public Dictionary<string, TileMap> Maps
         {
-            get { return _maps; }
-            private set { _maps = value; }
+            get { return maps; }
+            private set { maps = value; }
         }
 
         [ContentSerializer]
         public string CurrentMapName
         {
-            get { return _currentMapName; }
-            private set { _currentMapName = value; }
+            get { return currentMapName; }
+            private set { currentMapName = value; }
         }
 
         public TileMap CurrentMap
         {
-            get { return _maps[_currentMapName]; }
+            get { return maps[currentMapName]; }
         }
 
         #endregion
@@ -46,7 +46,7 @@ namespace Psilibrary.TileEngine
 
         public World()
         {
-            _maps = new Dictionary<string, TileMap>();
+            maps = new Dictionary<string, TileMap>();
         }
 
         #endregion
@@ -55,8 +55,8 @@ namespace Psilibrary.TileEngine
 
         public void AddMap(string mapName, TileMap map)
         {
-            if (!_maps.ContainsKey(mapName))
-                _maps.Add(mapName, map);
+            if (!maps.ContainsKey(mapName))
+                maps.Add(mapName, map);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Camera camera, bool debug = false)
@@ -66,9 +66,9 @@ namespace Psilibrary.TileEngine
 
         public Portal ChangeMap(string mapName, string portalName)
         {
-            if (_maps.ContainsKey(mapName) && _maps[mapName].PortalLayer.Portals.ContainsKey(portalName))
+            if (maps.ContainsKey(mapName) && maps[mapName].PortalLayer.Portals.ContainsKey(portalName))
             {
-                _currentMapName = mapName;
+                currentMapName = mapName;
 
                 return CurrentMap.PortalLayer.Portals[portalName];
             }

@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EyesOfTheDragon.PlayerComponents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Psilibrary;
+using Psilibrary.CharacterComponents;
 using Psilibrary.TileEngine;
 
 namespace EyesOfTheDragon.GameStates
@@ -22,6 +26,7 @@ namespace EyesOfTheDragon.GameStates
         private Camera camera;
         private Engine engine;
         private World world;
+        private static Player player;
 
         #endregion
 
@@ -41,6 +46,13 @@ namespace EyesOfTheDragon.GameStates
 
         protected override void LoadContent()
         {
+            player = new Player(
+                Game, 
+                "Alyssa", 
+                true, 
+                Character.FromDefinitioin(new PriestHeroDefinition(Game), ""));
+            Components.Add(player);
+
             base.LoadContent();
         }
 
@@ -54,6 +66,48 @@ namespace EyesOfTheDragon.GameStates
             camera.Update(gameTime, world.CurrentMap);
             camera.LockCamera(world.CurrentMap);
 
+            Vector2 motion = Vector2.Zero;
+            if (Xin.IsKeyDown(Keys.S))
+            {
+                motion.Y = 1;
+                player.Sprite.IsAnimating = true;
+                player.Sprite.CurrentAnimation = AnimationKey.WalkUp;
+            }
+
+            if (Xin.IsKeyDown(Keys.W))
+            {
+                motion.Y = -1;
+                player.Sprite.IsAnimating = true;
+                player.Sprite.CurrentAnimation = AnimationKey.WalkDown;
+            }
+
+            if (Xin.IsKeyDown(Keys.A))
+            {
+                motion.X = -1;
+                player.Sprite.IsAnimating = true;
+                player.Sprite.CurrentAnimation = AnimationKey.WalkLeft;
+            }
+
+            if (Xin.IsKeyDown(Keys.D))
+            {
+                motion.X = 1;
+                player.Sprite.IsAnimating = true;
+                player.Sprite.CurrentAnimation = AnimationKey.WalkRight;
+            }
+
+            if (motion != Vector2.Zero)
+            {
+                motion.Normalize();
+                player.Sprite.Position += motion * player.Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                player.Sprite.LockToMap(new Point(world.CurrentMap.WidthInPixels, world.CurrentMap.HeightInPixels));
+                camera.LockToSprite(player.Sprite, world.CurrentMap);
+            }
+            else
+            {
+                player.Sprite.IsAnimating = false;
+            }
+
+            
             base.Update(gameTime);
         }
 
@@ -70,9 +124,9 @@ namespace EyesOfTheDragon.GameStates
 
             world.CurrentMap.Draw(gameTime, GameRef.SpriteBatch, camera);
 
-            GameRef.SpriteBatch.End();
-
             base.Draw(gameTime);
+
+            GameRef.SpriteBatch.End();
         }
 
         public void SetupNewGame()
@@ -80,7 +134,7 @@ namespace EyesOfTheDragon.GameStates
             world = new World();
 
             Tileset tileset = new Tileset(
-                _content.Load<Texture2D>(@"Tiles\tilemap"),
+                content.Load<Texture2D>(@"Tiles\tilemap"),
                 13,
                 9,
                 16,

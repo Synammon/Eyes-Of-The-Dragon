@@ -15,11 +15,11 @@ namespace Psilibrary.StateManager
     {
         #region Field Region
 
-        private ITextureManager _textures;
-        protected GameState _tag;
-        protected readonly IStateManager _manager;
-        protected ContentManager _content;
-        protected readonly List<GameComponent> _childComponents;
+        private ITextureManager textures;
+        protected GameState tag;
+        protected readonly IStateManager manager;
+        protected ContentManager content;
+        protected readonly List<GameComponent> childComponents;
 
         #endregion
 
@@ -27,17 +27,17 @@ namespace Psilibrary.StateManager
 
         public List<GameComponent> Components
         {
-            get { return _childComponents; }
+            get { return childComponents; }
         }
 
         public GameState Tag
         {
-            get { return _tag; }
+            get { return tag; }
         }
 
         public ITextureManager TextureManager
         {
-            get { return _textures; }
+            get { return textures; }
         }
 
         #endregion
@@ -47,13 +47,13 @@ namespace Psilibrary.StateManager
         public GameState(Game game)
             : base(game)
         {
-            _tag = this;
+            tag = this;
 
-            _childComponents = new List<GameComponent>();
-            _content = Game.Content;
+            childComponents = new List<GameComponent>();
+            content = Game.Content;
 
-            _manager = (IStateManager)Game.Services.GetService(typeof(IStateManager));
-            _textures = (ITextureManager)Game.Services.GetService(typeof(ITextureManager));
+            manager = (IStateManager)Game.Services.GetService(typeof(IStateManager));
+            textures = (ITextureManager)Game.Services.GetService(typeof(ITextureManager));
         }
 
         #endregion
@@ -67,7 +67,7 @@ namespace Psilibrary.StateManager
 
         public override void Update(GameTime gameTime)
         {
-            foreach (GameComponent component in _childComponents)
+            foreach (GameComponent component in childComponents)
                 if (component.Enabled)
                     component.Update(gameTime);
 
@@ -78,14 +78,14 @@ namespace Psilibrary.StateManager
         {
             base.Draw(gameTime);
 
-            foreach (GameComponent component in _childComponents)
+            foreach (GameComponent component in childComponents)
                 if (component is DrawableGameComponent && ((DrawableGameComponent)component).Visible)
                     ((DrawableGameComponent)component).Draw(gameTime);
         }
 
         protected internal virtual void StateChanged(object sender, EventArgs e)
         {
-            if (_manager.CurrentState == _tag)
+            if (manager.CurrentState == tag)
                 Show();
             else
                 Hide();
@@ -96,7 +96,7 @@ namespace Psilibrary.StateManager
             Enabled = true;
             Visible = true;
 
-            foreach (GameComponent component in _childComponents)
+            foreach (GameComponent component in childComponents)
             {
                 component.Enabled = true;
                 if (component is DrawableGameComponent)
@@ -109,7 +109,7 @@ namespace Psilibrary.StateManager
             Enabled = false;
             Visible = false;
 
-            foreach (GameComponent component in _childComponents)
+            foreach (GameComponent component in childComponents)
             {
                 component.Enabled = false;
                 if (component is DrawableGameComponent)

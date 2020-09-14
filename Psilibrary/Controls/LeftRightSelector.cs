@@ -20,18 +20,18 @@ namespace Psilibrary.Controls
 
         #region Field Region
 
-        private List<string> _items = new List<string>();
+        private List<string> items = new List<string>();
 
-        private Texture2D _leftTexture;
-        private Texture2D _rightTexture;
-        private Texture2D _stopTexture;
+        private Texture2D leftTexture;
+        private Texture2D rightTexture;
+        private Texture2D stopTexture;
 
-        private Color _selectedColor = Color.Red;
-        private int _maxItemWidth;
-        private int _selectedItem;
-        private Rectangle _leftSide = new Rectangle();
-        private Rectangle _rightSide = new Rectangle();
-        private int _yOffset;
+        private Color selectedColor = Color.Red;
+        private int maxItemWidth;
+        private int selectedItem;
+        private Rectangle leftSide = new Rectangle();
+        private Rectangle rightSide = new Rectangle();
+        private int yOffset;
 
         #endregion
 
@@ -39,30 +39,30 @@ namespace Psilibrary.Controls
 
         public Color SelectedColor
         {
-            get { return _selectedColor; }
-            set { _selectedColor = value; }
+            get { return selectedColor; }
+            set { selectedColor = value; }
         }
 
         public int SelectedIndex
         {
-            get { return _selectedItem; }
-            set { _selectedItem = (int)MathHelper.Clamp(value, 0f, _items.Count); }
+            get { return selectedItem; }
+            set { selectedItem = (int)MathHelper.Clamp(value, 0f, items.Count); }
         }
 
         public string SelectedItem
         {
-            get { return Items[_selectedItem]; }
+            get { return Items[selectedItem]; }
         }
 
         public List<string> Items
         {
-            get { return _items; }
+            get { return items; }
         }
 
         public int MaxItemWidth
         {
-            get { return _maxItemWidth; }
-            set { _maxItemWidth = value; }
+            get { return maxItemWidth; }
+            set { maxItemWidth = value; }
         }
 
         #endregion
@@ -71,9 +71,9 @@ namespace Psilibrary.Controls
 
         public LeftRightSelector(Texture2D leftArrow, Texture2D rightArrow, Texture2D stop)
         {
-            _leftTexture = leftArrow;
-            _rightTexture = rightArrow;
-            _stopTexture = stop;
+            leftTexture = leftArrow;
+            rightTexture = rightArrow;
+            stopTexture = stop;
             TabStop = true;
             Color = Color.White;
         }
@@ -84,12 +84,12 @@ namespace Psilibrary.Controls
 
         public void SetItems(string[] items, int maxWidth)
         {
-            this._items.Clear();
+            this.items.Clear();
 
             foreach (string s in items)
-                this._items.Add(s);
+                this.items.Add(s);
 
-            _maxItemWidth = maxWidth;
+            maxItemWidth = maxWidth;
         }
 
         protected void OnSelectionChanged()
@@ -108,65 +108,65 @@ namespace Psilibrary.Controls
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 drawTo = _position;
+            Vector2 drawTo = position;
             Vector2 scale = new Vector2(
                 Settings.Resolution.X / 1280,
                 Settings.Resolution.Y / 720);
 
-            _spriteFont = FontManager.GetFont("interfacefont");
+            spriteFont = FontManager.GetFont("interfacefont");
 
-            _yOffset = (int)((_leftTexture.Height - _spriteFont.MeasureString("W").Y) / 2 * scale.Y);
-            _leftSide = new Rectangle(
-                (int)_position.X, 
-                (int)_position.Y, 
-                _leftTexture.Width, 
-                _leftTexture.Height).Scale(scale);
+            yOffset = (int)((leftTexture.Height - spriteFont.MeasureString("W").Y) / 2 * scale.Y);
+            leftSide = new Rectangle(
+                (int)position.X, 
+                (int)position.Y, 
+                leftTexture.Width, 
+                leftTexture.Height).Scale(scale);
 
             //if (selectedItem != 0)
-            spriteBatch.Draw(_leftTexture, _leftSide, Color.White);
+            spriteBatch.Draw(leftTexture, leftSide, Color.White);
             //else
             //    spriteBatch.Draw(stopTexture, drawTo, Color.White);
 
-            drawTo.X += _leftTexture.Width + 5f;
+            drawTo.X += leftTexture.Width + 5f;
 
-            float itemWidth = _spriteFont.MeasureString(_items[_selectedItem]).X;
-            float offset = (_maxItemWidth - itemWidth) / 2 * scale.X;
+            float itemWidth = spriteFont.MeasureString(items[selectedItem]).X;
+            float offset = (maxItemWidth - itemWidth) / 2 * scale.X;
 
             drawTo.X += offset;
-            drawTo.Y += _yOffset;
+            drawTo.Y += yOffset;
 
-            if (_hasFocus)
-                spriteBatch.DrawString(_spriteFont, _items[_selectedItem], drawTo.Scale(scale), _selectedColor);
+            if (hasFocus)
+                spriteBatch.DrawString(spriteFont, items[selectedItem], drawTo.Scale(scale), selectedColor);
             else
-                spriteBatch.DrawString(_spriteFont, _items[_selectedItem], drawTo.Scale(scale), Color);
+                spriteBatch.DrawString(spriteFont, items[selectedItem], drawTo.Scale(scale), Color);
 
-            drawTo.X += -1 * offset + _maxItemWidth + 5f;
+            drawTo.X += -1 * offset + maxItemWidth + 5f;
 
-            _rightSide = new Rectangle((int)drawTo.X, (int)drawTo.Y - _yOffset, _rightTexture.Width, _rightTexture.Height).Scale(scale);
+            rightSide = new Rectangle((int)drawTo.X, (int)drawTo.Y - yOffset, rightTexture.Width, rightTexture.Height).Scale(scale);
             //if (selectedItem != items.Count - 1)
-            spriteBatch.Draw(_rightTexture, _rightSide, Color.White);
+            spriteBatch.Draw(rightTexture, rightSide, Color.White);
             //else
             //    spriteBatch.Draw(stopTexture, drawTo, Color.White);
         }
 
         public override void HandleInput()
         {
-            if (_items.Count == 0)
+            if (items.Count == 0)
                 return;
 
             if (Xin.WasKeyReleased(Keys.Left))
             {
-                _selectedItem--;
-                if (_selectedItem < 0)
-                    _selectedItem = this.Items.Count - 1;
+                selectedItem--;
+                if (selectedItem < 0)
+                    selectedItem = this.Items.Count - 1;
                 OnSelectionChanged();
             }
 
             if (Xin.WasKeyReleased(Keys.Right))
             {
-                _selectedItem++;
-                if (_selectedItem >= _items.Count)
-                    _selectedItem = 0;
+                selectedItem++;
+                if (selectedItem >= items.Count)
+                    selectedItem = 0;
                 OnSelectionChanged();
             }
         }
@@ -177,19 +177,19 @@ namespace Psilibrary.Controls
             {
                 Point mouse = Xin.MouseAsPoint;
 
-                if (_leftSide.Contains(mouse))
+                if (leftSide.Contains(mouse))
                 {
-                    _selectedItem--;
-                    if (_selectedItem < 0)
-                        _selectedItem = this.Items.Count - 1;
+                    selectedItem--;
+                    if (selectedItem < 0)
+                        selectedItem = this.Items.Count - 1;
                     OnSelectionChanged();
                 }
 
-                if (_rightSide.Contains(mouse))
+                if (rightSide.Contains(mouse))
                 {
-                    _selectedItem++;
-                    if (_selectedItem >= _items.Count)
-                        _selectedItem = 0;
+                    selectedItem++;
+                    if (selectedItem >= items.Count)
+                        selectedItem = 0;
                     OnSelectionChanged();
                 }
             }

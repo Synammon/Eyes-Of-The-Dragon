@@ -12,19 +12,19 @@ namespace Psilibrary.Controls
     {
         #region Field Region
 
-        protected string _name;
-        protected string _text;
-        protected Vector2 _size;
-        protected Vector2 _position;
-        protected object _value;
-        protected bool _hasFocus;
-        protected bool _enabled;
-        protected bool _visible;
-        protected bool _tabStop;
-        protected SpriteFont _spriteFont;
-        protected Color _color;
-        protected string _type;
-        protected bool _mouseOver;
+        protected string name;
+        protected string text;
+        protected Vector2 size;
+        protected Vector2 position;
+        protected object value;
+        protected bool hasFocus;
+        protected bool enabled;
+        protected bool visible;
+        protected bool tabStop;
+        protected SpriteFont spriteFont;
+        protected Color color;
+        protected string type;
+        protected bool mouseOver;
 
         #endregion
 
@@ -38,78 +38,78 @@ namespace Psilibrary.Controls
 
         public string Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get { return name; }
+            set { name = value; }
         }
 
         public string Text
         {
-            get { return _text; }
-            set { _text = value; }
+            get { return text; }
+            set { text = value; }
         }
 
         public Vector2 Size
         {
-            get { return _size; }
-            set { _size = value; }
+            get { return size; }
+            set { size = value; }
         }
 
         public Vector2 Position
         {
-            get { return _position; }
+            get { return position; }
             set
             {
-                _position = value;
-                _position.Y = (int)_position.Y;
+                position = value;
+                position.Y = (int)position.Y;
             }
         }
 
         public object Value
         {
-            get { return _value; }
-            set { this._value = value; }
+            get { return value; }
+            set { this.value = value; }
         }
 
         public virtual bool HasFocus
         {
-            get { return _hasFocus; }
-            set { _hasFocus = value; }
+            get { return hasFocus; }
+            set { hasFocus = value; }
         }
 
         public bool Enabled
         {
-            get { return _enabled; }
-            set { _enabled = value; }
+            get { return enabled; }
+            set { enabled = value; }
         }
 
         public bool Visible
         {
-            get { return _visible; }
-            set { _visible = value; }
+            get { return visible; }
+            set { visible = value; }
         }
 
         public bool TabStop
         {
-            get { return _tabStop; }
-            set { _tabStop = value; }
+            get { return tabStop; }
+            set { tabStop = value; }
         }
 
         public SpriteFont SpriteFont
         {
-            get { return _spriteFont; }
-            set { _spriteFont = value; }
+            get { return spriteFont; }
+            set { spriteFont = value; }
         }
 
         public Color Color
         {
-            get { return _color; }
-            set { _color = value; }
+            get { return color; }
+            set { color = value; }
         }
 
         public string Type
         {
-            get { return _type; }
-            set { _type = value; }
+            get { return type; }
+            set { type = value; }
         }
 
         #endregion
@@ -121,7 +121,7 @@ namespace Psilibrary.Controls
             Color = Color.White;
             Enabled = true;
             Visible = true;
-            _mouseOver = false;
+            mouseOver = false;
         }
 
         #endregion

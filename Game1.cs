@@ -17,10 +17,10 @@ namespace EyesOfTheDragon
         private readonly GraphicsDeviceManager graphics;
         private readonly StateManager stateManager;
         private readonly TextureManager textureManager;
-        private readonly OptionState _optionState;
-        private readonly MainMenuState _mainMenuState;
-        private readonly TitleState _titleState;
-        private readonly GamePlayState _gamePlayState;
+        private readonly OptionState optionState;
+        private readonly MainMenuState mainMenuState;
+        private readonly TitleState titleState;
+        private readonly GamePlayState gamePlayState;
 
         public static readonly Dictionary<string, Point> Resolutions =
             new Dictionary<string, Point>();
@@ -34,28 +34,30 @@ namespace EyesOfTheDragon
 
         public MainMenuState MainMenuState
         {
-            get { return _mainMenuState; }
+            get { return mainMenuState; }
         }
 
         public TitleState TitleState
         {
-            get { return _titleState; }
+            get { return titleState; }
         }
 
         public OptionState OptionState
         {
-            get { return _optionState; }
+            get { return optionState; }
         }
 
         public GamePlayState GamePlayState
         {
-            get { return _gamePlayState; }
+            get { return gamePlayState; }
         }
 
         public GraphicsDeviceManager GraphicsDeviceManager
         {
             get { return graphics; }
         }
+
+        public static Dictionary<AnimationKey, Animation> Animations { get; internal set; }
 
         public Game1()
         {
@@ -91,13 +93,13 @@ namespace EyesOfTheDragon
             Components.Add(new FontManager(this));
             Components.Add(new Xin(this));
 
-            _mainMenuState = new MainMenuState(this);
-            _titleState = new TitleState(this);
-            _optionState = new OptionState(this);
-            _gamePlayState = new GamePlayState(this);
+            mainMenuState = new MainMenuState(this);
+            titleState = new TitleState(this);
+            optionState = new OptionState(this);
+            gamePlayState = new GamePlayState(this);
 
-            stateManager.ChangeState(_titleState);
-
+            stateManager.ChangeState(titleState);
+            
             IsMouseVisible = true;
         }
 
@@ -109,8 +111,24 @@ namespace EyesOfTheDragon
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            BuildAnimations();
             base.Initialize();
+        }
+        public static void BuildAnimations()
+        {
+            Animations = new Dictionary<AnimationKey, Animation>();
+
+            Animation animation = new Animation(3, 32, 36, 0, 0);
+            Animations.Add(AnimationKey.WalkDown, animation);
+
+            animation = new Animation(3, 32, 36, 0, 36);
+            Animations.Add(AnimationKey.WalkRight, animation);
+
+            animation = new Animation(3, 32, 36, 0, 72);
+            Animations.Add(AnimationKey.WalkUp, animation);
+
+            animation = new Animation(3, 32, 36, 0, 108);
+            Animations.Add(AnimationKey.WalkLeft, animation);
         }
 
         /// <summary>

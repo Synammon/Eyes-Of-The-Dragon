@@ -16,7 +16,7 @@ namespace Psilibrary
 
     public class TextureManager : GameComponent, ITextureManager
     {
-        private Dictionary<string, Texture2D> _textures;
+        private Dictionary<string, Texture2D> textures;
 
         public TextureManager(Game game)
             : base(game)
@@ -26,7 +26,7 @@ namespace Psilibrary
 
         public override void Initialize()
         {
-            _textures = new Dictionary<string, Texture2D>();
+            textures = new Dictionary<string, Texture2D>();
 
             base.Initialize();
         }
@@ -38,31 +38,31 @@ namespace Psilibrary
 
         public void AddTexture(string textureName, Texture2D texture)
         {
-            if (!_textures.ContainsKey(textureName))
+            if (!textures.ContainsKey(textureName))
             {
-                _textures.Add(textureName, texture);
+                textures.Add(textureName, texture);
             }
         }
 
         public void RemoveTexture(string textureName)
         {
-            if (_textures.ContainsKey(textureName))
+            if (textures.ContainsKey(textureName))
             {
-                _textures.Remove(textureName);
+                textures.Remove(textureName);
             }
         }
 
         public Texture2D GetTexture(string textureName)
         {
-            if (_textures.ContainsKey(textureName))
-                return _textures[textureName];
+            if (textures.ContainsKey(textureName))
+                return textures[textureName];
 
             return null;
         }
 
         public bool ContainsTexture(string textureName)
         {
-            return _textures.ContainsKey(textureName);
+            return textures.ContainsKey(textureName);
         }
     }
 }

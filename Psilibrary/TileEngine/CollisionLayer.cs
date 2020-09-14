@@ -10,17 +10,17 @@ namespace Psilibrary.TileEngine
 
     public class CollisionLayer
     {
-        private Dictionary<Point, CollisionValue> _collisionAreas;
+        private Dictionary<Point, CollisionValue> collisionAreas;
 
         public Dictionary<Point, CollisionValue> CollisionAreas
         {
-            get { return _collisionAreas; }
-            set { _collisionAreas = value; }
+            get { return collisionAreas; }
+            set { collisionAreas = value; }
         }
 
         public CollisionLayer()
         {
-            _collisionAreas = new Dictionary<Point, CollisionValue>();
+            collisionAreas = new Dictionary<Point, CollisionValue>();
         }
     }
 }

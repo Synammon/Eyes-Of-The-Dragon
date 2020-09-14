@@ -21,11 +21,11 @@ namespace Psilibrary.StateManager
     {
         #region Field Region
 
-        private readonly Stack<GameState> _gameStates = new Stack<GameState>();
+        private readonly Stack<GameState> gameStates = new Stack<GameState>();
 
-        private const int _startDrawOrder = 5000;
-        private const int _drawOrderInc = 50;
-        private int _drawOrder;
+        private const int startDrawOrder = 5000;
+        private const int drawOrderInc = 50;
+        private int drawOrder;
 
         #endregion
 
@@ -39,7 +39,7 @@ namespace Psilibrary.StateManager
 
         public GameState CurrentState
         {
-            get { return _gameStates.Peek(); }
+            get { return gameStates.Peek(); }
         }
 
         #endregion
@@ -64,17 +64,17 @@ namespace Psilibrary.StateManager
 
         private void AddState(GameState state)
         {
-            _drawOrder += _drawOrderInc;
-            state.DrawOrder = _drawOrder;
+            drawOrder += drawOrderInc;
+            state.DrawOrder = drawOrder;
 
-            _gameStates.Push(state);
+            gameStates.Push(state);
             Game.Components.Add(state);
             StateChanged += state.StateChanged;
         }
 
         public void PopState()
         {
-            if (_gameStates.Count != 0)
+            if (gameStates.Count != 0)
             {
                 RemoveState();
                 OnStateChanged();
@@ -83,21 +83,21 @@ namespace Psilibrary.StateManager
 
         private void RemoveState()
         {
-            GameState state = _gameStates.Peek();
-            _drawOrder -= _drawOrderInc;
+            GameState state = gameStates.Peek();
+            drawOrder -= drawOrderInc;
             StateChanged -= state.StateChanged;
             Game.Components.Remove(state);
-            _gameStates.Pop();
+            gameStates.Pop();
         }
 
         public void ChangeState(GameState state)
         {
-            while (_gameStates.Count > 0)
+            while (gameStates.Count > 0)
                 RemoveState();
 
-            _drawOrder = _startDrawOrder;
-            state.DrawOrder = _drawOrder;
-            _drawOrder += _drawOrderInc;
+            drawOrder = startDrawOrder;
+            state.DrawOrder = drawOrder;
+            drawOrder += drawOrderInc;
 
             AddState(state);
             OnStateChanged();
@@ -105,7 +105,7 @@ namespace Psilibrary.StateManager
 
         public bool ContainsState(GameState state)
         {
-            return _gameStates.Contains(state);
+            return gameStates.Contains(state);
         }
 
         protected internal virtual void OnStateChanged()

@@ -11,12 +11,12 @@ namespace Psilibrary.TileEngine
     {
         #region Field Region
 
-        private int _tilesWide = 1;
-        private int _tilesHigh = 1;
+        private int tilesWide = 1;
+        private int tilesHigh = 1;
 
-        private Point _sourceTile;
-        private Point _destinationTile;
-        private string _destinationLevel;
+        private Point sourceTile;
+        private Point destinationTile;
+        private string destinationLevel;
 
         #endregion
 
@@ -25,36 +25,36 @@ namespace Psilibrary.TileEngine
         [ContentSerializer]
         public Point SourceTile
         {
-            get { return _sourceTile; }
-            private set { _sourceTile = value; }
+            get { return sourceTile; }
+            private set { sourceTile = value; }
         }
 
         [ContentSerializer]
         public Point DestinationTile
         {
-            get { return _destinationTile; }
-            private set { _destinationTile = value; }
+            get { return destinationTile; }
+            private set { destinationTile = value; }
         }
 
         [ContentSerializer]
         public string DestinationLevel
         {
-            get { return _destinationLevel; }
-            private set { _destinationLevel = value; }
+            get { return destinationLevel; }
+            private set { destinationLevel = value; }
         }
 
         [ContentSerializer(Optional=true)]
         public int TilesWide
         {
-            get { return _tilesWide; }
-            private set { _tilesWide = value; }
+            get { return tilesWide; }
+            private set { tilesWide = value; }
         }
 
         [ContentSerializer(Optional = true)]
         public int TilesHigh
         {
-            get { return _tilesHigh; }
-            private set { _tilesHigh = value; }
+            get { return tilesHigh; }
+            private set { tilesHigh = value; }
         }
 
         [ContentSerializer(Optional = true)]
@@ -77,13 +77,13 @@ namespace Psilibrary.TileEngine
 
             if (p == null)
             {
-                _tilesWide = 1;
-                _tilesHigh = 1;
+                tilesWide = 1;
+                tilesHigh = 1;
             }
             else
             {
-                _tilesWide = p.Value.X;
-                _tilesHigh = p.Value.Y;
+                tilesWide = p.Value.X;
+                tilesHigh = p.Value.Y;
             }
         }
 

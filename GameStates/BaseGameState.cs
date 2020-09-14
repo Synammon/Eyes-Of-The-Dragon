@@ -12,7 +12,7 @@ namespace EyesOfTheDragon.GameStates
     {
         #region Field Region
 
-        protected static Random _random = new Random();
+        protected static Random random = new Random();
         protected Game1 GameRef;
 
         #endregion

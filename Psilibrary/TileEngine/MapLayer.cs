@@ -12,7 +12,7 @@ namespace Psilibrary.TileEngine
     {
         #region Field Region
 
-        private Tile[,] _layer;
+        private Tile[,] layer;
         
         #endregion
 
@@ -20,12 +20,12 @@ namespace Psilibrary.TileEngine
 
         public int Width
         {
-            get { return _layer.GetLength(1); }
+            get { return layer.GetLength(1); }
         }
 
         public int Height
         {
-            get { return _layer.GetLength(0); }
+            get { return layer.GetLength(0); }
         }
 
         #endregion
@@ -34,18 +34,18 @@ namespace Psilibrary.TileEngine
 
         public MapLayer(Tile[,] map)
         {
-            this._layer = (Tile[,])map.Clone();
+            this.layer = (Tile[,])map.Clone();
         }
 
         public MapLayer(int width, int height)
         {
-            _layer = new Tile[height, width];
+            layer = new Tile[height, width];
 
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
-                    _layer[y, x] = new Tile(0, 0);
+                    layer[y, x] = new Tile(0, 0);
                 }
             }
         }
@@ -56,17 +56,17 @@ namespace Psilibrary.TileEngine
 
         public Tile GetTile(int x, int y)
         {
-            return _layer[y, x];
+            return layer[y, x];
         }
 
         public void SetTile(int x, int y, Tile tile)
         {
-            _layer[y, x] = tile;
+            layer[y, x] = tile;
         }
 
         public void SetTile(int x, int y, int tileIndex, int tileset, int rotation = 0)
         {
-            _layer[y, x] = new Tile(tileIndex, tileset, rotation);
+            layer[y, x] = new Tile(tileIndex, tileset, rotation);
         }
 
         public void Update(GameTime gameTime)

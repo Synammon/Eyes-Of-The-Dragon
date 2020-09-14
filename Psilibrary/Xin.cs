@@ -16,11 +16,11 @@ namespace Psilibrary
 
         private static void SetStates()
         {
-            _lastKeyboardState = _keyboardState;
-            _lastMouseState = _mouseState;
+            lastKeyboardState = keyboardState;
+            lastMouseState = mouseState;
 
-            _keyboardState = Keyboard.GetState();
-            _mouseState = Mouse.GetState();
+            keyboardState = Keyboard.GetState();
+            mouseState = Mouse.GetState();
 
         }
 
@@ -29,8 +29,8 @@ namespace Psilibrary
         public Xin(Game game)
             : base(game)
         {
-            _keyboardState = Keyboard.GetState();
-            _mouseState = Mouse.GetState();
+            keyboardState = Keyboard.GetState();
+            mouseState = Mouse.GetState();
         }
 
         public sealed override void Initialize()
@@ -46,15 +46,15 @@ namespace Psilibrary
 
         public static bool WasKeyReleased(Keys key)
         {
-            if (_keyboardState.IsKeyUp(key) &&
-                _lastKeyboardState.IsKeyDown(key))
+            if (keyboardState.IsKeyUp(key) &&
+                lastKeyboardState.IsKeyDown(key))
                 return true;
             return false;
         }
 
         public static bool WasKeyPressed(Keys key)
         {
-            return _keyboardState.IsKeyDown(key) && _lastKeyboardState.IsKeyUp(key);
+            return keyboardState.IsKeyDown(key) && lastKeyboardState.IsKeyUp(key);
         }
 
         #region Mouse Region
@@ -84,37 +84,37 @@ namespace Psilibrary
         #endregion
 
 
-        static MouseState _mouseState;
-        static MouseState _lastMouseState;
+        static MouseState mouseState;
+        static MouseState lastMouseState;
 
         public static MouseState MouseState
         {
-            get { return _mouseState; }
+            get { return mouseState; }
         }
 
         public static MouseState LastMouseState
         {
-            get { return _lastMouseState; }
+            get { return lastMouseState; }
         }
 
         public static Point MouseAsPoint
         {
-            get { return new Point(_mouseState.X, _mouseState.Y); }
+            get { return new Point(mouseState.X, mouseState.Y); }
         }
 
         public static Vector2 MouseAsVector2
         {
-            get { return new Vector2(_mouseState.X, _mouseState.Y); }
+            get { return new Vector2(mouseState.X, mouseState.Y); }
         }
 
         public static Point LastMouseAsPoint
         {
-            get { return new Point(_lastMouseState.X, _lastMouseState.Y); }
+            get { return new Point(lastMouseState.X, lastMouseState.Y); }
         }
 
         public static Vector2 LastMouseAsVector2
         {
-            get { return new Vector2(_lastMouseState.X, _lastMouseState.Y); }
+            get { return new Vector2(lastMouseState.X, lastMouseState.Y); }
         }
 
         public static bool CheckMousePress(MouseButton button)
@@ -176,19 +176,19 @@ namespace Psilibrary
                 case MouseButton.None:
                     break;
                 case MouseButton.Left:
-                    result = _mouseState.LeftButton == ButtonState.Pressed;
+                    result = mouseState.LeftButton == ButtonState.Pressed;
                     break;
                 case MouseButton.Right:
-                    result = _mouseState.RightButton == ButtonState.Pressed;
+                    result = mouseState.RightButton == ButtonState.Pressed;
                     break;
                 case MouseButton.Middle:
-                    result = _mouseState.MiddleButton == ButtonState.Pressed;
+                    result = mouseState.MiddleButton == ButtonState.Pressed;
                     break;
                 case MouseButton.X1:
-                    result = _mouseState.XButton1 == ButtonState.Pressed;
+                    result = mouseState.XButton1 == ButtonState.Pressed;
                     break;
                 case MouseButton.X2:
-                    result = _mouseState.XButton2 == ButtonState.Pressed;
+                    result = mouseState.XButton2 == ButtonState.Pressed;
                     break;
             }
             return result;
@@ -201,19 +201,19 @@ namespace Psilibrary
             switch (button)
             {
                 case MouseButton.Left:
-                    result = _mouseState.LeftButton == ButtonState.Released;
+                    result = mouseState.LeftButton == ButtonState.Released;
                     break;
                 case MouseButton.Right:
-                    result = _mouseState.RightButton == ButtonState.Released;
+                    result = mouseState.RightButton == ButtonState.Released;
                     break;
                 case MouseButton.Middle:
-                    result = _mouseState.MiddleButton == ButtonState.Released;
+                    result = mouseState.MiddleButton == ButtonState.Released;
                     break;
                 case MouseButton.X1:
-                    result = _mouseState.XButton1 == ButtonState.Released;
+                    result = mouseState.XButton1 == ButtonState.Released;
                     break;
                 case MouseButton.X2:
-                    result = _mouseState.XButton2 == ButtonState.Released;
+                    result = mouseState.XButton2 == ButtonState.Released;
                     break;
             }
             return result;
@@ -226,19 +226,19 @@ namespace Psilibrary
             switch (button)
             {
                 case MouseButton.Left:
-                    result = _lastMouseState.LeftButton == ButtonState.Pressed;
+                    result = lastMouseState.LeftButton == ButtonState.Pressed;
                     break;
                 case MouseButton.Right:
-                    result = _lastMouseState.RightButton == ButtonState.Pressed;
+                    result = lastMouseState.RightButton == ButtonState.Pressed;
                     break;
                 case MouseButton.Middle:
-                    result = _lastMouseState.MiddleButton == ButtonState.Pressed;
+                    result = lastMouseState.MiddleButton == ButtonState.Pressed;
                     break;
                 case MouseButton.X1:
-                    result = _lastMouseState.XButton1 == ButtonState.Pressed;
+                    result = lastMouseState.XButton1 == ButtonState.Pressed;
                     break;
                 case MouseButton.X2:
-                    result = _lastMouseState.XButton2 == ButtonState.Pressed;
+                    result = lastMouseState.XButton2 == ButtonState.Pressed;
                     break;
             }
             return result;
@@ -251,19 +251,19 @@ namespace Psilibrary
             switch (button)
             {
                 case MouseButton.Left:
-                    result = _lastMouseState.LeftButton == ButtonState.Released;
+                    result = lastMouseState.LeftButton == ButtonState.Released;
                     break;
                 case MouseButton.Right:
-                    result = _lastMouseState.RightButton == ButtonState.Released;
+                    result = lastMouseState.RightButton == ButtonState.Released;
                     break;
                 case MouseButton.Middle:
-                    result = _lastMouseState.MiddleButton == ButtonState.Released;
+                    result = lastMouseState.MiddleButton == ButtonState.Released;
                     break;
                 case MouseButton.X1:
-                    result = _lastMouseState.XButton1 == ButtonState.Released;
+                    result = lastMouseState.XButton1 == ButtonState.Released;
                     break;
                 case MouseButton.X2:
-                    result = _lastMouseState.XButton2 == ButtonState.Released;
+                    result = lastMouseState.XButton2 == ButtonState.Released;
                     break;
             }
             return result;
@@ -271,62 +271,62 @@ namespace Psilibrary
 
         private static bool CheckLeftButtonReleased()
         {
-            return (_mouseState.LeftButton == ButtonState.Released) &&
-                (_lastMouseState.LeftButton == ButtonState.Pressed);
+            return (mouseState.LeftButton == ButtonState.Released) &&
+                (lastMouseState.LeftButton == ButtonState.Pressed);
         }
 
         private static bool CheckRightButtonReleased()
         {
-            return (_mouseState.RightButton == ButtonState.Released) &&
-                (_lastMouseState.RightButton == ButtonState.Pressed);
+            return (mouseState.RightButton == ButtonState.Released) &&
+                (lastMouseState.RightButton == ButtonState.Pressed);
         }
 
         private static bool CheckMiddleButtonReleased()
         {
-            return (_mouseState.MiddleButton == ButtonState.Released) &&
-                (_lastMouseState.MiddleButton == ButtonState.Pressed);
+            return (mouseState.MiddleButton == ButtonState.Released) &&
+                (lastMouseState.MiddleButton == ButtonState.Pressed);
         }
 
         private static bool CheckXButton1Released()
         {
-            return (_mouseState.XButton1 == ButtonState.Released) &&
-                (_lastMouseState.XButton1 == ButtonState.Pressed);
+            return (mouseState.XButton1 == ButtonState.Released) &&
+                (lastMouseState.XButton1 == ButtonState.Pressed);
         }
 
         private static bool CheckXButton2Released()
         {
-            return (_mouseState.XButton2 == ButtonState.Released) &&
-                (_lastMouseState.XButton2 == ButtonState.Pressed);
+            return (mouseState.XButton2 == ButtonState.Released) &&
+                (lastMouseState.XButton2 == ButtonState.Pressed);
         }
 
         private static bool CheckLeftButtonPressed()
         {
-            return (_mouseState.LeftButton == ButtonState.Pressed) &&
-                (_lastMouseState.LeftButton == ButtonState.Released);
+            return (mouseState.LeftButton == ButtonState.Pressed) &&
+                (lastMouseState.LeftButton == ButtonState.Released);
         }
 
         private static bool CheckRightButtonPressed()
         {
-            return (_mouseState.RightButton == ButtonState.Pressed) &&
-                (_lastMouseState.RightButton == ButtonState.Released);
+            return (mouseState.RightButton == ButtonState.Pressed) &&
+                (lastMouseState.RightButton == ButtonState.Released);
         }
 
         private static bool CheckMiddleButtonPressed()
         {
-            return (_mouseState.MiddleButton == ButtonState.Pressed) &&
-                (_lastMouseState.MiddleButton == ButtonState.Released);
+            return (mouseState.MiddleButton == ButtonState.Pressed) &&
+                (lastMouseState.MiddleButton == ButtonState.Released);
         }
 
         private static bool CheckXButton1Pressed()
         {
-            return (_mouseState.XButton1 == ButtonState.Pressed) &&
-                (_lastMouseState.XButton1 == ButtonState.Released);
+            return (mouseState.XButton1 == ButtonState.Pressed) &&
+                (lastMouseState.XButton1 == ButtonState.Released);
         }
 
         private static bool CheckXButton2Pressed()
         {
-            return (_mouseState.XButton2 == ButtonState.Pressed) &&
-                (_lastMouseState.XButton2 == ButtonState.Released);
+            return (mouseState.XButton2 == ButtonState.Pressed) &&
+                (lastMouseState.XButton2 == ButtonState.Released);
         }
         #endregion
 
@@ -339,9 +339,9 @@ namespace Psilibrary
         {
             bool keyPressed = false;
 
-            foreach (Keys key in _keyboardState.GetPressedKeys())
+            foreach (Keys key in keyboardState.GetPressedKeys())
             {
-                if (_lastKeyboardState.IsKeyUp(key))
+                if (lastKeyboardState.IsKeyUp(key))
                 {
                     keyPressed = true;
                     break;
@@ -354,9 +354,9 @@ namespace Psilibrary
         {
             bool keyPressed = false;
 
-            foreach (Keys key in _lastKeyboardState.GetPressedKeys())
+            foreach (Keys key in lastKeyboardState.GetPressedKeys())
             {
-                if (_keyboardState.IsKeyUp(key))
+                if (keyboardState.IsKeyUp(key))
                 {
                     keyPressed = true;
                     break;
@@ -367,8 +367,8 @@ namespace Psilibrary
 
         #endregion
 
-        static KeyboardState _keyboardState;
-        static KeyboardState _lastKeyboardState;
+        static KeyboardState keyboardState;
+        static KeyboardState lastKeyboardState;
 
         public static void FlushInput()
         {
@@ -377,52 +377,52 @@ namespace Psilibrary
 
         public static KeyboardState KeyboardState
         {
-            get { return _keyboardState; }
+            get { return keyboardState; }
         }
 
         public static KeyboardState LastKeyboardState
         {
-            get { return _lastKeyboardState; }
+            get { return lastKeyboardState; }
         }
 
         public static bool CheckKeyPress(Keys key)
         {
-            return _keyboardState.IsKeyDown(key) && _lastKeyboardState.IsKeyUp(key);
+            return keyboardState.IsKeyDown(key) && lastKeyboardState.IsKeyUp(key);
         }
 
         public static bool CheckKeyRelease(Keys key)
         {
-            return _keyboardState.IsKeyUp(key) && _lastKeyboardState.IsKeyDown(key);
+            return keyboardState.IsKeyUp(key) && lastKeyboardState.IsKeyDown(key);
         }
 
         public static bool IsKeyDown(Keys key)
         {
-            return _keyboardState.IsKeyDown(key);
+            return keyboardState.IsKeyDown(key);
         }
 
         public static bool IsKeyUp(Keys key)
         {
-            return _keyboardState.IsKeyUp(key);
+            return keyboardState.IsKeyUp(key);
         }
 
         public static bool LastIsKeyDown(Keys key)
         {
-            return _lastKeyboardState.IsKeyDown(key);
+            return lastKeyboardState.IsKeyDown(key);
         }
 
         public static bool LastIsKeyUp(Keys key)
         {
-            return _lastKeyboardState.IsKeyUp(key);
+            return lastKeyboardState.IsKeyUp(key);
         }
 
         public static Keys[] GetPressedKeys()
         {
-            return _keyboardState.GetPressedKeys();
+            return keyboardState.GetPressedKeys();
         }
 
         public static Keys[] GetLastPressedKeys()
         {
-            return _lastKeyboardState.GetPressedKeys();
+            return lastKeyboardState.GetPressedKeys();
         }
 
         #endregion

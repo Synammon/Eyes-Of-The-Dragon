@@ -10,10 +10,10 @@ namespace Psilibrary.TileEngine
     {
         #region Field Region
 
-        private int _tileIndex;
-        private int _tileset;
-        private int _rotation;
-        private bool _visible;
+        private int tileIndex;
+        private int tileset;
+        private int rotation;
+        private bool visible;
 
         #endregion
 
@@ -22,29 +22,29 @@ namespace Psilibrary.TileEngine
         [ContentSerializer]
         public int TileIndex
         {
-            get { return _tileIndex; }
-            private set { _tileIndex = value; }
+            get { return tileIndex; }
+            private set { tileIndex = value; }
         }
 
         [ContentSerializer]
         public int Tileset
         {
-            get { return _tileset; }
-            private set { _tileset = value; }
+            get { return tileset; }
+            private set { tileset = value; }
         }
 
         [ContentSerializer(Optional=true)]
         public bool Visible
         {
-            get { return _visible; }
-            set { _visible = value; }
+            get { return visible; }
+            set { visible = value; }
         }
 
         [ContentSerializer(Optional=true)]
         public int Rotation
         {
-            get { return _rotation; }
-            set { _rotation = value; }
+            get { return rotation; }
+            set { rotation = value; }
         }
 
         #endregion
@@ -53,7 +53,7 @@ namespace Psilibrary.TileEngine
 
         private Tile()
         {
-            _visible = true;
+            visible = true;
         }
 
         public Tile(int tileIndex, int tileset, int rotation = 0)

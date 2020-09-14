@@ -19,7 +19,7 @@ namespace Psilibrary.Controls
 
         #region Field Region
 
-        Texture2D _background;
+        Texture2D background;
        
         #endregion
 
@@ -30,7 +30,7 @@ namespace Psilibrary.Controls
 
         public Button(Texture2D background)
         {
-            _background = background;
+            background = background;
         }
 
         #endregion
@@ -46,13 +46,13 @@ namespace Psilibrary.Controls
             Rectangle destination = new Rectangle(
                 (int)Position.X, 
                 (int)Position.Y, 
-                _background.Width, 
-                _background.Height).Scale(scale);
-            spriteBatch.Draw(_background, destination, Color.White);
-            _spriteFont = FontManager.GetFont("interfacefont");
-            Vector2 size = _spriteFont.MeasureString(Text);
-            Vector2 offset = new Vector2((_background.Width * scale.X - size.X) / 2, (_background.Height * scale.Y - size.Y) / 2);
-            spriteBatch.DrawString(_spriteFont, Text, (Position.Scale(scale) + offset), Color);
+                background.Width, 
+                background.Height).Scale(scale);
+            spriteBatch.Draw(background, destination, Color.White);
+            spriteFont = FontManager.GetFont("interfacefont");
+            Vector2 size = spriteFont.MeasureString(Text);
+            Vector2 offset = new Vector2((background.Width * scale.X - size.X) / 2, (background.Height * scale.Y - size.Y) / 2);
+            spriteBatch.DrawString(spriteFont, Text, (Position.Scale(scale) + offset), Color);
         }
 
         public override void HandleInput()
@@ -63,10 +63,10 @@ namespace Psilibrary.Controls
                 Settings.Resolution.Y / 720);
 
             Rectangle destination = new Rectangle(
-                (int)_position.X, 
-                (int)_position.Y, 
-                _background.Width, 
-                _background.Height).Scale(scale);
+                (int)position.X, 
+                (int)position.Y, 
+                background.Width, 
+                background.Height).Scale(scale);
 
             if (destination.Contains(position) && Xin.CheckMouseReleased(MouseButton.Left))
             {

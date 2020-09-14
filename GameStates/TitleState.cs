@@ -18,10 +18,10 @@ namespace EyesOfTheDragon.GameStates
     {
         #region Field Region
 
-        private TextureManager _textureManager;
-        private SpriteFont _font;
-        private Rectangle _destination;
-        private bool _mouseOver;
+        private TextureManager textureManager;
+        private SpriteFont font;
+        private Rectangle destination;
+        private bool mouseOver;
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace EyesOfTheDragon.GameStates
             : base(game)
         {
             game.Services.AddService(typeof(ITitleState), this);
-            _textureManager = (TextureManager)game.Services.GetService(typeof(ITextureManager));
+            textureManager = (TextureManager)game.Services.GetService(typeof(ITextureManager));
         }
 
         #endregion
@@ -43,17 +43,17 @@ namespace EyesOfTheDragon.GameStates
 
         protected override void LoadContent()
         {
-            _font = _content.Load<SpriteFont>(@"Fonts\InterfaceFont");
+            font = content.Load<SpriteFont>(@"Fonts\InterfaceFont");
 
             base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
         {
-            if ((Xin.CheckMouseReleased(MouseButton.Left) && _mouseOver) ||
+            if ((Xin.CheckMouseReleased(MouseButton.Left) && mouseOver) ||
                 Xin.CheckKeyRelease(Keys.Enter))
             {
-                _manager.ChangeState(GameRef.MainMenuState);
+                manager.ChangeState(GameRef.MainMenuState);
             }
 
             base.Update(gameTime);
@@ -67,33 +67,33 @@ namespace EyesOfTheDragon.GameStates
 
             GameRef.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
-            Vector2 size = _font.MeasureString("PRESS ENTER TO BEGIN");
+            Vector2 size = font.MeasureString("PRESS ENTER TO BEGIN");
 
             GameRef.SpriteBatch.Draw(
-                _textureManager.GetTexture("title-screen"), 
+                textureManager.GetTexture("title-screen"), 
                 new Rectangle(0, 0, Settings.Resolution.X, Settings.Resolution.Y), 
                 Color.White);
 
             Vector2 position = new Vector2((1280 - size.X) / 2, 620).Scale(scale);
-            _destination = new Rectangle(
+            destination = new Rectangle(
                 (int)position.X - 10,
                 (int)position.Y - 20,
                 (int)(size.X + 20),
                 (int)(size.Y + 40));
 
-            if (_destination.Contains(Xin.MouseAsPoint))
+            if (destination.Contains(Xin.MouseAsPoint))
             {
-                _mouseOver = true;
+                mouseOver = true;
             }
 
             GameRef.SpriteBatch.Draw(
-                _textureManager.GetTexture("blue-button"),
-                _destination,
+                textureManager.GetTexture("blue-button"),
+                destination,
                 null,
                 Color.White);
 
             GameRef.SpriteBatch.DrawString(
-                _font,
+                font,
                 "PRESS ENTER TO BEGIN",
                 position,
                 Color.White);

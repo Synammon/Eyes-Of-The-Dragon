@@ -39,8 +39,8 @@ namespace EyesOfTheDragon.GameStates
             base.LoadContent();
 
             resolutions = new LeftRightSelector(
-                _content.Load<Texture2D>(@"GUI\g22987"),
-                _content.Load<Texture2D>(@"GUI\g21245"),
+                content.Load<Texture2D>(@"GUI\g22987"),
+                content.Load<Texture2D>(@"GUI\g21245"),
                 null);
 
             resolutions.Position = new Vector2(100, 100);
@@ -52,42 +52,42 @@ namespace EyesOfTheDragon.GameStates
 
             resolutions.SetItems(items.ToArray(), 400);
 
-            apply = new Button(_content.Load<Texture2D>(@"GUI\g9202"))
+            apply = new Button(content.Load<Texture2D>(@"GUI\g9202"))
             {
                 Text = "Apply",
                 Position = new Vector2(700, 100)
             };
 
-            apply.Click += Apply_Click;
+            apply.Click += ApplyClick;
 
-            back = new Button(_content.Load<Texture2D>(@"GUI\g9202"))
+            back = new Button(content.Load<Texture2D>(@"GUI\g9202"))
             {
                 Text = "Back",
                 Position = new Vector2(100, 300)
             };
 
-            back.Click += Back_Click;
+            back.Click += BackClick;
 
-            save = new Button(_content.Load<Texture2D>(@"GUI\g9202"))
+            save = new Button(content.Load<Texture2D>(@"GUI\g9202"))
             {
                 Text = "Save",
                 Position = new Vector2(100, 200)
             };
 
-            save.Click += Save_Click;
+            save.Click += SaveClick;
         }
 
-        private void Save_Click(object sender, EventArgs e)
+        private void SaveClick(object sender, EventArgs e)
         {
             Settings.Save();
         }
 
-        private void Back_Click(object sender, EventArgs e)
+        private void BackClick(object sender, EventArgs e)
         {
-            _manager.PopState();
+            manager.PopState();
         }
 
-        private void Apply_Click(object sender, EventArgs e)
+        private void ApplyClick(object sender, EventArgs e)
         {
             GameRef.GraphicsDeviceManager.PreferredBackBufferWidth = Game1.Resolutions[resolutions.SelectedItem].X;
             GameRef.GraphicsDeviceManager.PreferredBackBufferHeight = Game1.Resolutions[resolutions.SelectedItem].Y;

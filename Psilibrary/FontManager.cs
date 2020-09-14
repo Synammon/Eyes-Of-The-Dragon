@@ -6,7 +6,7 @@ namespace Psilibrary
 {
     public class FontManager : DrawableGameComponent
     {
-        private readonly static Dictionary<string, SpriteFont> _fonts =
+        private readonly static Dictionary<string, SpriteFont> fonts =
             new Dictionary<string, SpriteFont>();
         private static Game gameRef;
 
@@ -17,28 +17,28 @@ namespace Psilibrary
 
         protected override void LoadContent()
         {
-            _fonts.Add("interfacefont", Game.Content.Load<SpriteFont>(@"Fonts\interfacefont"));
-            _fonts.Add("interfacefont_medium", Game.Content.Load<SpriteFont>(@"Fonts\interfacefont_medium"));
-            _fonts.Add("interfacefont_high", Game.Content.Load<SpriteFont>(@"Fonts\interfacefont_large"));
-            _fonts.Add("interfacefont_ultra", Game.Content.Load<SpriteFont>(@"Fonts\interfacefont_ultra"));
+            fonts.Add("interfacefont", Game.Content.Load<SpriteFont>(@"Fonts\interfacefont"));
+            fonts.Add("interfacefontmedium", Game.Content.Load<SpriteFont>(@"Fonts\interfacefont_medium"));
+            fonts.Add("interfacefonthigh", Game.Content.Load<SpriteFont>(@"Fonts\interfacefont_large"));
+            fonts.Add("interfacefontultra", Game.Content.Load<SpriteFont>(@"Fonts\interfacefont_ultra"));
         }
 
         public static SpriteFont GetFont(string name)
         {
             if (gameRef.GraphicsDevice.Viewport.Width >= 4000)
             {
-                name += "_ultra";
+                name += "ultra";
             }
             else if (gameRef.GraphicsDevice.Viewport.Width >= 3000)
             {
-                name += "_high";
+                name += "high";
             }
             else if (gameRef.GraphicsDevice.Viewport.Width >= 1920)
             {
-                name += "_medium";
+                name += "medium";
             }
 
-            return _fonts[name];
+            return fonts[name];
         }
 
         public static bool ContainsFont(string name)
@@ -53,10 +53,10 @@ namespace Psilibrary
             }
             else if (gameRef.GraphicsDevice.Viewport.Width >= 1920)
             {
-                name += "_medium";
+                name += "medium";
             }
 
-            return _fonts.ContainsKey(name);
+            return fonts.ContainsKey(name);
         }
     }
 }
