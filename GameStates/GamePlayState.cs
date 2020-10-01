@@ -95,6 +95,44 @@ namespace EyesOfTheDragon.GameStates
                 player.Sprite.CurrentAnimation = AnimationKey.WalkRight;
             }
 
+            if (Xin.IsMouseDown(MouseButton.Right))
+            {
+                Vector2 position = camera.Position + Xin.MouseAsVector2;
+
+                if (position.X < player.Sprite.Position.X && 
+                    position.Y > player.Sprite.Position.Y &&
+                    position.Y < player.Sprite.Position.Y + Engine.TileHeight)
+                {
+                    motion.X = -1;
+                    player.Sprite.IsAnimating = true;
+                    player.Sprite.CurrentAnimation = AnimationKey.WalkLeft;
+                }
+                else if (position.X > player.Sprite.Position.X &&
+                    position.Y > player.Sprite.Position.Y &&
+                    position.Y < player.Sprite.Position.Y + Engine.TileHeight)
+                {
+                    motion.X = 1;
+                    player.Sprite.IsAnimating = true;
+                    player.Sprite.CurrentAnimation = AnimationKey.WalkRight;
+                }
+
+                if (position.Y < player.Sprite.Position.Y &&
+                    position.X > player.Sprite.Position.X &&
+                    position.X < player.Sprite.Position.X + Engine.TileWidth)
+                {
+                    motion.Y = -1;
+                    player.Sprite.IsAnimating = true;
+                    player.Sprite.CurrentAnimation = AnimationKey.WalkDown;
+                }
+                else if (position.Y > player.Sprite.Position.Y &&
+                    position.X > player.Sprite.Position.X &&
+                    position.X < player.Sprite.Position.X + Engine.TileWidth)
+                {
+                    motion.Y = 1;
+                    player.Sprite.IsAnimating = true;
+                    player.Sprite.CurrentAnimation = AnimationKey.WalkUp;
+                }
+            }
             if (motion != Vector2.Zero)
             {
                 motion.Normalize();
@@ -168,7 +206,7 @@ namespace EyesOfTheDragon.GameStates
             world.ChangeMap("test", "test");
 
             camera = new Camera(new Rectangle(0, 0, 1280, 720));
-            engine = new Engine(32, 32);
+            engine = new Engine(64, 64);
         }
 
         public void LoadGame()
