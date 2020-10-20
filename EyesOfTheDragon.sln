@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyesOfTheDragon", "EyesOfTh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Psilibrary", "Psilibrary\Psilibrary.csproj", "{AF25F5B1-6EE2-4DD6-9954-E451A765A891}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XLevelEditor", "XLevelEditor\XLevelEditor\XLevelEditor.csproj", "{7FFB3258-B77D-413B-A581-FD0A5BD75A63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AF25F5B1-6EE2-4DD6-9954-E451A765A891}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF25F5B1-6EE2-4DD6-9954-E451A765A891}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF25F5B1-6EE2-4DD6-9954-E451A765A891}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FFB3258-B77D-413B-A581-FD0A5BD75A63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FFB3258-B77D-413B-A581-FD0A5BD75A63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FFB3258-B77D-413B-A581-FD0A5BD75A63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FFB3258-B77D-413B-A581-FD0A5BD75A63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

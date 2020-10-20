@@ -71,16 +71,24 @@ namespace Psilibrary.TileEngine
 
             this.portalLayer = portalLayer;
 
+            mapWidth = baseLayer.Width;
+            mapHeight = baseLayer.Height;
+
             mapLayers.Add(baseLayer);
 
             AddLayer(buildingLayer);
             AddLayer(splatterLayer);
 
-            mapWidth = baseLayer.Width;
-            mapHeight = baseLayer.Height;
-
             CollisionLayer = collisionLayer;
             spawnPositions = new Dictionary<string, Portal>();
+        }
+
+        public void SetTile(int selectedIndex1, int x, int y, decimal value, int selectedIndex2)
+        {
+            if (mapLayers[selectedIndex1] is MapLayer)
+            {
+                ((MapLayer)mapLayers[selectedIndex1]).SetTile(x, y, new Tile((int)value, selectedIndex2));
+            }
         }
 
         public TileMap(string name, Tileset tileset, MapLayer baseLayer, CollisionLayer collisionLayer, PortalLayer portalLayer)
