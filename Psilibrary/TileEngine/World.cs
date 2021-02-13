@@ -57,6 +57,8 @@ namespace Psilibrary.TileEngine
         {
             if (!maps.ContainsKey(mapName))
                 maps.Add(mapName, map);
+
+            CurrentMapName = mapName;
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Camera camera, bool debug = false)

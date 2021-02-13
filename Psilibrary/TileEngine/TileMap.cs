@@ -30,11 +30,25 @@ namespace Psilibrary.TileEngine
         public string Name
         {
             get { return name; }
+            private set { name = value; }
+        }
+
+        public List<Tileset> Tilesets
+        {
+            get { return tilesets; }
+            private set { tilesets = value; }
+        }
+
+        public List<ILayer> Layers
+        {
+            get { return mapLayers; }
+            set { mapLayers = value; }
         }
 
         public PortalLayer PortalLayer 
         {
             get { return portalLayer; }
+            private set { portalLayer = value; }
         }
 
         public CollisionLayer CollisionLayer
@@ -63,6 +77,11 @@ namespace Psilibrary.TileEngine
 
         #region Constructor Region
 
+        private TileMap()
+        {
+
+        }
+
         public TileMap(string name, List<Tileset> tilesets, MapLayer baseLayer, MapLayer buildingLayer, MapLayer splatterLayer, CollisionLayer collisionLayer, PortalLayer portalLayer)
         {
             this.name = name;
@@ -85,9 +104,9 @@ namespace Psilibrary.TileEngine
 
         public void SetTile(int selectedIndex1, int x, int y, decimal value, int selectedIndex2)
         {
-            if (mapLayers[selectedIndex1] is MapLayer)
+            if (mapLayers[selectedIndex1] is MapLayer layer)
             {
-                ((MapLayer)mapLayers[selectedIndex1]).SetTile(x, y, new Tile((int)value, selectedIndex2));
+                layer.SetTile(x, y, new Tile((int)value, selectedIndex2));
             }
         }
 

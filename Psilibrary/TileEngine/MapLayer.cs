@@ -18,6 +18,12 @@ namespace Psilibrary.TileEngine
 
         #region Property Region
 
+        public Tile[,] Layer
+        {
+            get { return layer; }
+            private set { layer = value; }
+        }
+
         public int Width
         {
             get { return layer.GetLength(1); }
@@ -31,6 +37,11 @@ namespace Psilibrary.TileEngine
         #endregion
 
         #region Constructor Region
+
+        private MapLayer()
+        {
+
+        }
 
         public MapLayer(Tile[,] map)
         {

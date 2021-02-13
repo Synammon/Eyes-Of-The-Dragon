@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Xna.Framework.Graphics;
+using Psilibrary;
 using Psilibrary.TileEngine;
 
 namespace XLevelEditor
@@ -23,6 +24,7 @@ namespace XLevelEditor
         public static LevelData LevelData = new LevelData();
         public static Engine engine = new Engine(64, 64);
         public static Camera camera;
+        private bool mouseDown;
 
         public FormMain()
         {
@@ -36,15 +38,106 @@ namespace XLevelEditor
             newLayerToolStripMenuItem.Click += NewLayerToolStripMenuItem_Click;
             newWorldToolStripMenuItem.Click += NewWorldToolStripMenuItem_Click;
 
+            saveWorldToolStripMenuItem.Click += SaveWorldToolStripMenuItem_Click;
+            openWorldToolStripMenuItem.Click += OpenWorldToolStripMenuItem_Click;
+
+            saveMapToolStripMenuItem.Click += SaveMapToolStripMenuItem_Click;
+            openMapToolStripMenuItem.Click += OpenMapToolStripMenuItem_Click;
+
             vScrollBar1.Scroll += VScrollBar1_Scroll;
             hScrollBar1.Scroll += HScrollBar1_Scroll;
 
             mapDisplay.MouseMove += MapDisplay_MouseMove;
             mapDisplay.MouseDown += MapDisplay_MouseDown;
-
+            mapDisplay.MouseUp += MapDisplay_MouseUp;
             lstTilesets.SelectedIndexChanged += LstTilesets_SelectedIndexChanged;
 
             nudInc1.ValueChanged += NudInc1_ValueChanged;
+        }
+
+        private void SaveWorldToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "World (*.xml)|*.xml"
+            };
+
+            DialogResult result = sfd.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                try
+                {
+                    XnaSerializer.Serialize<World>(sfd.FileName, World);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+            }
+        }
+
+        private void OpenWorldToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "World (*.xml)|*.xml"
+            };
+
+            DialogResult result = ofd.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                lstLayers.Items.Clear();
+                lstMaps.Items.Clear();
+                lstTilesets.Items.Clear();
+                Tilesets.Clear();
+                TilesetData.Clear();
+                Layers.Clear();
+
+                try
+                {
+                    World = XnaSerializer.Deserialize<World>(ofd.FileName);
+                    
+                    foreach (Tileset t in World.CurrentMap.Tilesets)
+                    {
+                    }
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+            }
+                 
+        }
+
+        private void SaveMapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TileMapData data = new TileMapData(Map);
+
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "Tile Map (*.xml)|*.xml"
+            };
+
+            DialogResult result = sfd.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                try
+                {
+                    XnaSerializer.Serialize<TileMapData>(sfd.FileName, data);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+            }
+        }
+
+        private void OpenMapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void NudInc1_ValueChanged(object sender, EventArgs e)
@@ -86,6 +179,8 @@ namespace XLevelEditor
                     (p.X + (int)camera.Position.X) / Engine.TileWidth, 
                     (p.Y + (int)camera.Position.Y) / Engine.TileHeight);
 
+            mouseDown = true;
+
             if (e.Button == MouseButtons.Left && 
                 lstTilesets.SelectedIndex >= 0 && 
                 lstLayers.SelectedIndex >= 0)
@@ -110,7 +205,38 @@ namespace XLevelEditor
 
         private void MapDisplay_MouseMove(object sender, MouseEventArgs e)
         {
-            
+            if (mouseDown)
+            {
+                Point p = e.Location;
+                Microsoft.Xna.Framework.Point dest =
+                    new Microsoft.Xna.Framework.Point(
+                        (p.X + (int)camera.Position.X) / Engine.TileWidth,
+                        (p.Y + (int)camera.Position.Y) / Engine.TileHeight);
+
+                if (e.Button == MouseButtons.Left && lstLayers.SelectedIndex >= 0)
+                {
+                    Map.SetTile(
+                        lstLayers.SelectedIndex,
+                        dest.X,
+                        dest.Y,
+                        nudInc1.Value,
+                        lstTilesets.SelectedIndex);
+                }
+                else if (e.Button == MouseButtons.Right && lstLayers.SelectedIndex >= 0)
+                {
+                    Map.SetTile(
+                        lstLayers.SelectedIndex,
+                        dest.X,
+                        dest.Y,
+                        -1,
+                        -1);
+                }
+            }
+        }
+
+        private void MapDisplay_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseDown = false;
         }
 
         private void HScrollBar1_Scroll(object sender, ScrollEventArgs e)

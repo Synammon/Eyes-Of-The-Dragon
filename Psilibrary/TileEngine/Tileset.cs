@@ -62,6 +62,11 @@ namespace Psilibrary.TileEngine
 
         #region Constructor Region
 
+        private Tileset()
+        {
+
+        }
+
         public Tileset(Texture2D image, int tilesWide, int tilesHigh, int tileWidth, int tileHeight)
         {
             Texture = image;
